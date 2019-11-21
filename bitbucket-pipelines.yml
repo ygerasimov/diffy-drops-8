@@ -79,6 +79,20 @@ default_steps: &default_steps
       artifacts:
         - backstop_data/**
   - step:
+      name: Test Diffy Visual Regression
+      image: php:7.1.1
+      services:
+          - docker
+      caches:
+          - docker
+          - node
+      script:
+        - *bash_env_export
+        - *bash_env_source
+        - ./.ci/test/diffy-visual-regression/run
+      artifacts:
+        - backstop_data/**
+  - step:
       name: Test Behat
       services:
           - docker

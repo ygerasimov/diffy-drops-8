@@ -117,7 +117,7 @@ test:visual-regression:
 test:diffy-visual-regression:
   stage: diffy-visual-test
   image:
-    name: circleci/php:7.3.9
+    name: php:7.2
     entrypoint: [""]
   variables:
     CI_BUILD_URL: $CI_PIPELINE_IID
