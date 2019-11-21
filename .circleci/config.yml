@@ -207,12 +207,12 @@ jobs:
       - run: source $BASH_ENV
 
       - run:
-          name: visual regression test
-          command: ./.ci/test/visual-regression/run
-
-      - run:
           name: diffy visual regression test
           command: ./.ci/test/diffy-visual-regression/run
+
+      - run:
+          name: visual regression test
+          command: ./.ci/test/visual-regression/run
 
       - store_artifacts:
           path: /tmp/artifacts
