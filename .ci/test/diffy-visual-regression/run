@@ -12,13 +12,13 @@
 BUILD_DIR=$(pwd)
 GITHUB_API_URL="https://api.github.com/repos/$CI_PROJECT_USERNAME/$CI_PROJECT_REPONAME"
 
-if [ -z "$DIFFY_API_KEY"]
+if [ -z "$DIFFY_API_KEY" ]
 then
   echo "Diffy integration is not configured. Add DIFFY_API_KEY to CircleCI variables."
   exit 1;
 fi
 
-if [ -z "$DIFFY_PROJECT_ID"]
+if [ -z "$DIFFY_PROJECT_ID" ]
 then
   echo "Diffy integration is not configured. Add DIFFY_PROJECT_ID to CircleCI variables."
   exit 1;
@@ -94,7 +94,7 @@ do
 done
 
 CHANGES=`echo $DIFF_COMPLETED | php -r 'echo json_decode(file_get_contents("php://stdin"))->result;'`
-if [ "$CHANGES" -eq "0" ];
+if [ "$CHANGES" -eq "0" ]
 then
 	# visual regression passed
 	echo -e "\n\nVisual regression test passed! No changes found."
