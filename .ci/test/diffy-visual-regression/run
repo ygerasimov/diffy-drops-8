@@ -104,12 +104,12 @@ if [ "$CHANGES" -eq "0" ]
 then
 	# visual regression passed
 	echo -e "\n\nVisual regression test passed! No changes found."
-	PR_MESSAGE="Visual regression test passed! No changes found."
+	PR_MESSAGE="Diffy visual regression test passed! No changes found."
 else
   # visual regression failed
 	echo -e "\nVisual regression test failed!"
 	REPORT_LINK="https://app.diffy.website/#/diffs/$DIFF_ID"
-	PR_MESSAGE="Visual regression test failed! $REPORT_LINK"
+	PR_MESSAGE="Diffy visual regression test failed! $REPORT_LINK"
 fi
 
 # Post the image back to the pull request on GitHub
@@ -119,7 +119,7 @@ then
     curl -s -i -u "$CI_PROJECT_USERNAME:$GITHUB_TOKEN" -d "{\"body\": \"$PR_MESSAGE\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments > /dev/null
 fi
 
-if [[ [[ $CHANGES -gt 0 ]] ]]
+if [ "$CHANGES" != "0" ]
 then
     exit 1
 fi
