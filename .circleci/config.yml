@@ -89,13 +89,13 @@ orbs:
                 DIFF_ID=`curl -X POST "https://app.diffy.website/api/projects/$DIFFY_PROJECT_ID/compare" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d "{\"env1\":\"dev\",\"env2\":\"custom\",\"env2Url\":\"${MULTIDEV_SITE_URL}\"}"`
                 sleep 30
                 DIFF_STATE=''
-                while [ "DIFF_STATE" != "4" ]
+                while [ "DIFF_STATE" != "4" ] && [ "DIFF_STATE" != "3" ] && [ "DIFF_STATE" != "2" ]
                 do
                   echo -e "\nChecking status of the diff $DIFF_ID"
                   DIFF_INFO=`curl -X GET "https://app.diffy.website/api/diffs/$DIFF_ID" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json"`
                   echo -e "\n Result of the check: $DIFF_INFO"
                   DIFF_STATE=`echo $DIFF_INFO | php -r 'echo json_decode(file_get_contents("php://stdin"))->state;'`
-                  echo -e "\n Diff completed? DIFF_STATE"
+                  echo -e "\n Diff completed? $DIFF_STATE"
                   sleep 5
                 done
                 CHANGES=`echo $DIFF_COMPLETED | php -r 'echo json_decode(file_get_contents("php://stdin"))->result;'`
