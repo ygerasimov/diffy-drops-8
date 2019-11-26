@@ -193,6 +193,7 @@ jobs:
           path: /tmp/artifacts
           destination: artifacts
 
+  # Diffy job.
   diffy_visual_regression_test: diffy/compare_multidev_dev
 
   visual_regression_test:
