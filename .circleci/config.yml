@@ -95,6 +95,7 @@ orbs:
                   # State 4 or 8 means that diff completed. 8 means that Diffy creates an archive but we already can treat it as completed.
                   DIFF_INFO=`curl -X GET "https://app.diffy.website/api/diffs/$DIFF_ID" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json"`
                   echo -e "\n Result of the check: $DIFF_INFO"
+                  echo -e "\n\nDebug. Checkig state.\n\n"
                   DIFF_COMPLETED=`echo $DIFF_INFO | grep '"state":8\|"state":4'`
                   echo -e "\n Diff completed? $DIFF_COMPLETED"
                   sleep 5
@@ -120,6 +121,7 @@ orbs:
                 fi
                 if [ "$CHANGES" != "0" ]
                 then
+                    echo -e "\n\nExit 1. Changes found."
                     exit 1
                 fi
 
