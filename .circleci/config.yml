@@ -39,7 +39,7 @@ defaults: &defaults
     TERM: dumb
 
 orbs:
-  diffy: diffy/diffy@0.0.1
+  diffy: diffy/diffy
 
 jobs:
   configure_env_vars:
