@@ -88,14 +88,14 @@ orbs:
                 echo -e "\nCompare a build ${MULTIDEV_SITE_URL} with DEV environment..."
                 DIFF_ID=`curl -X POST "https://app.diffy.website/api/projects/$DIFFY_PROJECT_ID/compare" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d "{\"env1\":\"dev\",\"env2\":\"custom\",\"env2Url\":\"${MULTIDEV_SITE_URL}\"}"`
                 sleep 30
-                DIFF_STATUS=''
-                while [ "$DIFF_STATUS" != "4" ]
+                DIFF_STATE=''
+                while [ "DIFF_STATE" != "4" ]
                 do
                   echo -e "\nChecking status of the diff $DIFF_ID"
                   DIFF_INFO=`curl -X GET "https://app.diffy.website/api/diffs/$DIFF_ID" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json"`
                   echo -e "\n Result of the check: $DIFF_INFO"
-                  DIFF_STATUS=`echo $DIFF_INFO | php -r 'echo json_decode(file_get_contents("php://stdin"))->status;'`
-                  echo -e "\n Diff completed? DIFF_STATUS"
+                  DIFF_STATE=`echo $DIFF_INFO | php -r 'echo json_decode(file_get_contents("php://stdin"))->state;'`
+                  echo -e "\n Diff completed? DIFF_STATE"
                   sleep 5
                 done
                 CHANGES=`echo $DIFF_COMPLETED | php -r 'echo json_decode(file_get_contents("php://stdin"))->result;'`
