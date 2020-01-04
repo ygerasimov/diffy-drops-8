@@ -114,6 +114,31 @@ test:visual-regression:
   only:
   - merge_requests
 
+test:diffy-visual-regression:
+  stage: diffy-visual-test
+  image:
+    name: php:7.2
+    entrypoint: [""]
+  variables:
+    CI_BUILD_URL: $CI_PIPELINE_IID
+    CI_REPOSITORY_URL: $CI_MERGE_REQUEST_IID
+  before_script:
+  # See https://docs.gitlab.com/ee/ci/ssh_keys/README.html
+  - eval $(ssh-agent -s) && ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - export BASH_ENV="$HOME/.envvarsrc"
+  - cp bash_env.txt $BASH_ENV
+  - source $BASH_ENV
+  script:
+  - ./.ci/test/diffy-visual-regression/run
+  artifacts:
+    paths:
+      - backstop_data
+  dependencies:
+    - configure:env-vars
+    - deploy:pantheon
+  only:
+  - merge_requests
+
 test:behat:
   stage: behat-test
   script:

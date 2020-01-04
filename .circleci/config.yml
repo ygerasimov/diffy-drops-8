@@ -1,3 +1,5 @@
+version: 2.1
+
 # https://circleci.com/docs/2.0/workflows/#using-workspaces-to-share-data-among-jobs
 defaults: &defaults
   docker:
@@ -36,7 +38,9 @@ defaults: &defaults
     # BUILD_TOOLS_VERSION: ^2.0.0-alpha4
     TERM: dumb
 
-version: 2
+orbs:
+  diffy: diffy/diffy@0
+
 jobs:
   configure_env_vars:
     <<: *defaults
@@ -189,6 +193,9 @@ jobs:
           path: /tmp/artifacts
           destination: artifacts
 
+  # Diffy job.
+  diffy_visual_regression_test: diffy/compare_multidev_dev
+
   visual_regression_test:
     <<: *defaults
     docker:
@@ -244,6 +251,14 @@ workflows:
           requires:
             - static_tests
             - build_php
+      - diffy_visual_regression_test:
+          requires:
+            - configure_env_vars
+            - deploy_to_pantheon
+          filters:
+            branches:
+              ignore:
+                - master
       - visual_regression_test:
           requires:
             - configure_env_vars
@@ -267,3 +282,5 @@ workflows:
                 - master
     jobs:
       - composer_lock_updater
+
+
